@@ -1,6 +1,9 @@
+import { config } from './config.ts'
+import { OpenRouterService } from './openRouterService.ts'
 import { createServer } from './server.ts'
 
-const app = createServer()
+const routerService = new OpenRouterService(config)
+const app = createServer(routerService)
 
 const host = process.env.HOST ?? '0.0.0.0'
 const port = Number(process.env.PORT ?? 3000)
