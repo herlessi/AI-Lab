@@ -1,5 +1,11 @@
 import { OpenRouter } from '@openrouter/sdk'
 import { config, type ModelConfig } from './config.ts';
+import { type ChatResult, type ProviderPreferences } from '@openrouter/sdk/models'
+
+export type LLMResponse = {
+    model:string;
+    content:string;
+}
 
 export class OpenRouterService {
     
@@ -11,7 +17,7 @@ export class OpenRouterService {
         this.client = new OpenRouter(this.config)
     }
 
-    async generate(prompt: string){
+    async generate(prompt: string): Promise<LLMResponse>{
         const response = await this.client.chat.send({
             chatRequest: {
                 models: this.config.models,
@@ -21,12 +27,16 @@ export class OpenRouterService {
                 ],
                 stream:false,
                 temperature:0.2,
-                maxTokens:50
+                maxTokens:50,
+                provider: this.config.provider as ProviderPreferences
             }
-        })
+        }) as ChatResult
 
-        // console.log('response',response.choices[0].message.content)
-        return response?.choices[0]?.message?.content ?? ''
+        const content = response?.choices[0]?.message.content
+        return {
+            model: response.model,
+            content: String(content)
+        }
 
     }
 }
