@@ -18,9 +18,8 @@ export const config: ModelConfig = {
     appTitle: 'mywebsite',
     systemPrompt: 'You are a kindful assistant.',
     models:[
-        'tencent/hy-image-v3.5-preview',
-        'dots-studio/dots-3-note-preview:free',
-        'nvidia/nemotron-3-ultra-550b-a55b:free'
+        'nvidia/nemotron-3.5-lightning:free', //mais barato para texto
+        'anthropic/claude-sonnet-5.5' //mais caro e alto throughput para texto
     ],
     provider: {
         sort:{
